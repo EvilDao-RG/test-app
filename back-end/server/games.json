@@ -1,0 +1,17 @@
+{
+    "game1": {
+        "name": "Valorant",
+        "genre": "Shooter",
+        "studio": "Riot Games"
+    },
+    "game2": {
+        "name": "Elden Ring",
+        "genre": "RPG",
+        "studio": "FromSoftware"
+    },
+    "game3": {
+        "name": "Rocket League",
+        "genre": "Sports",
+        "studio": "Psyonix"
+    }
+}
