@@ -6,6 +6,19 @@ const app = express();
 const fs = require("fs");
 const path = require("path");
 
+//MYSQL
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host : "127.0.0.1",
+    user : "root",
+    password : "G3007SQL!database"
+});
+
+connection.connect(function(err){
+    if (err) throw err;
+    console.log("Connected!");
+});
+
 // swagger
 const swaggerUI =require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
