@@ -6,12 +6,16 @@ const app = express();
 const fs = require("fs");
 const path = require("path");
 
+var bodyParser = require("body-parser");
+var ala = bodyParser.json();
+
 //MYSQL
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host : "127.0.0.1",
-    user : "root",
-    password : "database"
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host : '127.0.0.1',
+    database: 'test',
+    user : 'root',
+    password : 'database'
 });
 
 connection.connect(function(err){
@@ -114,10 +118,31 @@ app.listen(PORT, () => {
 app.delete("/game/deleteGame/:gameID", function (req, res) {
     fs.readFile(__dirname + "/" + "games.json", "utf8", (err, data) =>{
         data = JSON.parse(data);
+        let deletedGame = data[`${req.params.gameID}`];
         delete data[`${req.params.gameID}`];
 
-        console.log(data);
-        res.end(JSON.stringify(data));
+        //console.log(data);
+        fs.writeFile(__dirname + "/games.json", JSON.stringify(data), function(err, result){
+            if (err) throw err;
+            console.log('The "data to delete" was deleted from file!');
+        });
+        res.end(JSON.stringify(deletedGame));
+    });
+});
+
+var id = 3;
+
+app.put("/forms/putGame", ala, (req, res) =>{
+    fs.readFile(__dirname + "/" + "games.json", "utf-8", (err, data) =>{
+        data = JSON.parse(data);
+        data["game"+id] = {"name":req.body.name, "genre":req.body.genre, "studio":req.body.studio};
+        console.log(JSON.stringify(req.body));
+        fs.writeFile(__dirname + "/games.json", JSON.stringify(data), function(err, result){
+            if (err) throw err;
+            console.log('The "data to append" was appended to file!');
+        });
+        res.end(JSON.stringify(data["game"+id]));
+        id++;
     });
 });
 
@@ -125,11 +150,11 @@ app.put("/game/putGame", (req, res) =>{
     fs.readFile(__dirname + "/" + "games.json", "utf-8", (err, data) =>{
         data = JSON.parse(data);
         data["game3"] = newGame["game3"];
-        console.log(data);
+
         fs.writeFile(__dirname + "/games.json", JSON.stringify(data), function(err, result){
             if (err) throw err;
             console.log('The "data to append" was appended to file!');
         });
-        res.end(JSON.stringify(data));
+        res.end(JSON.stringify(data["game3"]));
     });
 });

@@ -1,17 +1,1 @@
-{
-    "game1": {
-        "name": "Valorant",
-        "genre": "Shooter",
-        "studio": "Riot Games"
-    },
-    "game2": {
-        "name": "Elden Ring",
-        "genre": "RPG",
-        "studio": "FromSoftware"
-    },
-    "game3": {
-        "name": "Rocket League",
-        "genre": "Sports",
-        "studio": "Psyonix"
-    }
-}
+{"game1":{"name":"Valorant","genre":"Shooter","studio":"Riot Games"},"game3":{"name":"Multiversus","genre":"Fight","studio":"Player First Games"}}
