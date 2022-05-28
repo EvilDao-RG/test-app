@@ -43,17 +43,20 @@ class Form extends React.Component{
                 <form id='Form' onSubmit={this.handleSubmit}>
                     <div>
                         <label className='Form-label'>Name</label>
-                        <input type="text" name='name' value={this.state.name} onChange={this.handleInputChange} placeholder='Name'/>
+                        <input type="text" name='name' value={this.state.name} 
+                        onChange={this.handleInputChange} placeholder='Name'/>
                     </div>
                         <br/>
                     <div>
                         <label className='Form-label'>Genre</label>
-                        <input type="text" name='genre' value={this.state.genre} onChange={this.handleInputChange} placeholder='Genre'/>
+                        <input type="text" name='genre' value={this.state.genre} 
+                        onChange={this.handleInputChange} placeholder='Genre'/>
                     </div>
                         <br/>
                     <div>
                         <label className='Form-label'>Studio</label>
-                        <input type="text" name='studio' value={this.state.studio} onChange={this.handleInputChange} placeholder='Studio'/>
+                        <input type="text" name='studio' value={this.state.studio} 
+                        onChange={this.handleInputChange} placeholder='Studio'/>
                     </div>
                     <br/>
                     <div>

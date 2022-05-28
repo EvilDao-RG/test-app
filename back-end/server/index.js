@@ -3,17 +3,18 @@
 const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
-const fs = require("fs");
 const path = require("path");
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 var bodyParser = require("body-parser");
 var ala = bodyParser.json();
+const fs = require("fs");
 
 //MYSQL
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host : '127.0.0.1',
-    database: 'test',
+    database: 'games',
     user : 'root',
     password : 'database'
 });
@@ -26,6 +27,7 @@ connection.connect(function(err){
 // swagger
 const swaggerUI =require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const { resolve } = require("path");
 const swaggerSpec ={
     definition:{
         openapi: "3.0.0",
@@ -45,14 +47,11 @@ const swaggerSpec ={
 app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)));
 
 
-const newGame = {
-    "game3" : {
-        "name" : "Rocket League",
-        "genre" : "Sports",
-        "studio" : "Psyonix"
-    }
-};
 
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+  
 /**
  *  @swagger
  *  /api:
@@ -133,17 +132,13 @@ app.delete("/game/deleteGame/:gameID", function (req, res) {
 var id = 3;
 
 app.put("/forms/putGame", ala, (req, res) =>{
-    fs.readFile(__dirname + "/" + "games.json", "utf-8", (err, data) =>{
-        data = JSON.parse(data);
-        data["game"+id] = {"name":req.body.name, "genre":req.body.genre, "studio":req.body.studio};
-        console.log(JSON.stringify(req.body));
-        fs.writeFile(__dirname + "/games.json", JSON.stringify(data), function(err, result){
-            if (err) throw err;
-            console.log('The "data to append" was appended to file!');
-        });
-        res.end(JSON.stringify(data["game"+id]));
-        id++;
+    query = `INSERT INTO stock(G_NAME, G_GENRE, G_STUDIO) VALUES('` + 
+        req.body.name + `','` + req.body.genre + `','` + req.body.studio + `');`;
+    connection.query(query, function(err, result){
+        if(err) throw(err);
+        console.log(result);
     });
+    id++;
 });
 
 app.put("/game/putGame", (req, res) =>{
